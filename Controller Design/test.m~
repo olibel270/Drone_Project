@@ -1,0 +1,31 @@
+clear; clc; close all;
+%Parameters
+m=0.5; %mass in kg
+l=0.17; %arm length in meters
+Jxx 
+
+%theta:pitch ; phi:roll ; psi:yaw
+theta = 0; phi=0; psi=0;
+theta_dot = 0; phi_dot = 0; psi_dot = 0;
+theta_ddot = 0; phi_ddot = 0; psi_ddot = 0;
+
+%Position vector r
+r = [0;0;0];
+r_dot = [0;0;0];
+r_ddot = [0;0;0];
+
+%From body to world
+body_to_world_rotation_matrix = [
+    cos(psi)*cos(theta)-sin(phi)*sin(psi)*sin(theta) -cos(phi)*sin(psi) cos(phi)*sin(theta)+cos(theta)*sin(phi)*sin(psi);
+    cos(theta)*sin(psi)+cos(psi)*sin(phi)*sin(theta) cos(phi)*cos(psi) sin(psi)*sin(theta)-cos(psi)*cos(theta)*sin(phi);
+    -cos(phi)*sin(theta) sin(phi) cos(phi)*cos(theta)]
+
+%Center of Mass acceleration equations
+%m*r_ddot = [0;0;-m*g]+R*[0;0;sum_F];
+
+%pqr_matrix contains angular velocities
+pqr_matrix = [
+ cos(theta) 0 -cos(phi)*sin(theta);
+ 0 1 sin(phi);
+ sin(theta) 0 cos(phi)*cos(theta)
+]*[phi_dot; theta_dot; psi_dot]
